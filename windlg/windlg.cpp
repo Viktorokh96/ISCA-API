@@ -387,4 +387,5 @@ unsigned int menu_winV2(MENSTR*	menu_conf, string	title, vector <string>	items, 
 		}
 
 	}
+	return 0;
 }
