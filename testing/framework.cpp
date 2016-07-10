@@ -5,11 +5,24 @@
 #include "../iscalib/system/isca.h"
 #include "./iosystem.h"
 
-struct ISCA_Win {
+/* Стандартные поля формы:
+ * chil - список потомков формы
+ * curr - указатель на текущую форму (для поддержки модальности)
+*/
 
+#define STD_FORM\
+	void *chil;\
+	void *curr;\
+
+struct ISCA_Win {
+	STD_FORM
 };
 
-int ISCA_RegisterWindow(ISCA_Win win)
+struct ISCA_Button {
+	STD_FORM
+};
+
+int ISCA_RegisterWindow(ISCA_Win *win)
 {
 	return 0;
 }
@@ -22,6 +35,12 @@ int ISCA_Init()
 	return 0;			
 }
 
+int ISCA_Insert(void* dst, void* src)
+{
+	ISCA_Log("./initlog.log", "Вставка одной формы в другую\n");
+	return 0;
+}
+
 /* Статус прекращения работы не возвращается */
 void ISCA_Quit() 
 {		
@@ -31,12 +50,13 @@ void ISCA_Quit()
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 
 ISCA_Win  *win;
+ISCA_Button *but;
 
 void InitForms()
  {
 	//win = ISCA_CreateWin(startx, starty, width, height, "title", options); 
 	ISCA_RegisterWindow(win);	/* Регистрация формы окна */ 
-	ISCA_Insert(win, but);
+	ISCA_Insert(win, but);		/* Вставка одной формы в другую */
 }
 
 int main(int argc, char const *argv[])
