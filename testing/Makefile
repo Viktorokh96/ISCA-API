@@ -6,7 +6,7 @@ INCLUDE = -I/usr/include
 LIBS = -lform -lreadline
 
 # Направление поиска для make
-vpath %.c ./services ./parses ./jobs ./signal
+vpath %.cpp ./iosys
 # Установка флагов для компиляции объектных файлов
 FLAGS = -Wall -c -g -std=c++98 $(INCLUDE)
 # Установка флагов для линковщика
