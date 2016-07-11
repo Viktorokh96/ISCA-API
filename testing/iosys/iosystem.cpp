@@ -5,47 +5,6 @@
 #include <fstream>
 #include "iosystem.h"
 
-#define PARSE_MSG(buff, msg)\
-	do {\
-	const char *ch = msg.c_str();\
-\
-		va_list p;\
-		va_start(p, msg);\
-\
-		while(*ch) {\
-			if(*ch == '%') {\
-				ch++;\
-				switch(*ch) {\
-					case 'i':\
-					case 'd':\
-					case 'u':\
-						buff += convertNumber(va_arg(p, int));\
-						break;\
-\
-					case 'e':\
-					case 'f':\
-					case 'g':\
-						buff += convertNumber(va_arg(p, double));\
-						break;\
-\
-					case 's':\
-						buff += va_arg(p, char *);\
-						break;\
-\
-					case 'c':\
-						buff.push_back(va_arg(p, int));\
-						break;\
-				}\
-				ch++;\
-			}\
-\
-			buff.push_back(*ch);\
-			ch++;\
-		}\
-\
-		va_end(p);\
-	} while(0);
-
 template <class T>
 std::string convertNumber(T num)
 {
@@ -54,17 +13,23 @@ std::string convertNumber(T num)
     return ss.str();
 }
 
-void ISCA_Log(std::ostream &out, std::string msg, ...)
+void ISCA_Log(std::ostream &out, std::string fmt, ...)
 {
+	char sbf[256]; 
 	std::string buff = "ISCA_LOG:";
 
-	PARSE_MSG(buff,msg)
+	va_list ap;
+	va_start(ap, fmt);
+	vsprintf(sbf, fmt.c_str(), ap);
+
+	buff += sbf;
 
 	out << buff;
 }
 
-void ISCA_Log(std::string filename, std::string msg, ...)
+void ISCA_Log(std::string filename, std::string fmt, ...)
 {
+	char sbf[256]; 
 	std::ofstream out;
 	out.open(filename.c_str(), 
 		std::ios::out | std::ios::app);
@@ -77,7 +42,11 @@ void ISCA_Log(std::string filename, std::string msg, ...)
 
 	std::string buff = "ISCA_LOG:";
 
-	PARSE_MSG(buff,msg)
+	va_list ap;
+	va_start(ap, fmt);
+	vsprintf(sbf, fmt.c_str(), ap);
+
+	buff += sbf;
 
 	out << buff;
 

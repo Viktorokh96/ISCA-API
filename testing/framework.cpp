@@ -5,6 +5,8 @@
 #include "../iscalib/system/isca.h"
 #include "./iosys/iosystem.h"
 
+#define LOGFILE "./initlog.log"
+
 struct ISCA_Rect {
 	int x,y;	// Начальные координаты формы
 	int w,h;	// Ширина и высота формы
@@ -51,7 +53,7 @@ int ISCA_Assign(ISCA_Rect *rect, int x, int y, int w, int h)
 
 int ISCA_Init() 
 {
-	ISCA_Log("./initlog.log", "Инициализация ISCA...\n");
+	ISCA_Log(LOGFILE, "Инициализация ISCA...\n");
 
 	/* Успешная  инициализация */
 	return 0;			
@@ -59,14 +61,14 @@ int ISCA_Init()
 
 int ISCA_Insert(void* dst, void* src)
 {
-	ISCA_Log("./initlog.log", "Вставка одной формы в другую\n");
+	ISCA_Log(LOGFILE, "Вставка одной формы в другую\n");
 	return 0;
 }
 
 /* Статус прекращения работы не возвращается */
 void ISCA_Quit() 
 {		
-	ISCA_Log("./initlog.log", "Прекращение работы ISCA...\n");	
+	ISCA_Log(LOGFILE, "Прекращение работы ISCA...\n");	
 }
 
 void ISCA_Run()
