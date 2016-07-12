@@ -45,6 +45,7 @@ struct ISCA_StdForm {
 
 struct ISCA_Win {
 	STD_FORM
+	opt_t options;
 };
 
 struct ISCA_Button {
@@ -61,20 +62,16 @@ void ISCA_StdDraw(void *ths)
 	return;
 }
 
-void ISCA_StdFree(void *ths)
+void ISCA_ApplicFree(void *apl)
 {
-	if(!ths) return;
-	ISCA_StdForm *frm = (ISCA_StdForm *) ths;
-
-	ISCA_Log(LOGFILE, "Освобождение формы %s\n", frm -> title.c_str());
-
-	frm -> title.~string();
-	delete ths;		// Освобождение формы
+	ISCA_StdForm *a = (ISCA_StdForm *) apl;
+	delete a;
 }
 
-int ISCA_RegisterForm(void *frm, eventhandler_t evt = ISCA_StdEventHandl,
-			drawhandler_t drw = ISCA_StdDraw,
-			deletehandler_t fr = ISCA_StdFree)
+int ISCA_RegisterForm(void *frm, deletehandler_t fr,
+		eventhandler_t evt = ISCA_StdEventHandl,
+		drawhandler_t drw = ISCA_StdDraw
+)
 {
 	if(!frm)
 		return -1;
@@ -86,6 +83,16 @@ int ISCA_RegisterForm(void *frm, eventhandler_t evt = ISCA_StdEventHandl,
 	f->free = fr;
 	
 	return 0;
+}
+
+void ISCA_FreeForm(void *frm)
+{
+	ISCA_StdForm *f = (ISCA_StdForm *) frm;
+
+	ISCA_Log(LOGFILE, "Освобождение формы %s\n",
+			f->title.c_str());
+
+	f->free(f);
 }
 
 int ISCA_Assign(ISCA_Rect *rect, int x, int y, int w, int h)
@@ -125,7 +132,7 @@ int ISCA_Init()
 	ISCA_Applic->chil = NULL;
 	ISCA_Applic->curr = NULL;
 
-	ISCA_Applic->free = ISCA_StdFree;
+	ISCA_Applic->free = ISCA_ApplicFree;
 
 	ISCA_Applic->title = "Applic Main";
 
@@ -166,7 +173,7 @@ void ISCA_FreeTree(void *f)
 	}
 	
 	ISCA_Log(LOGFILE, "Удаление вершины %s\n", frm->title.c_str());
-	frm->free(frm);
+	ISCA_FreeForm(frm);
 }
 
 /* Статус прекращения работы не возвращается */
@@ -191,6 +198,12 @@ void ISCA_Run()
 
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 
+void ISCA_FreeWin(void *win)
+{
+	ISCA_Win *w = (ISCA_Win *) win;
+	delete w;
+}
+
 ISCA_Win *ISCA_CreateWin(ISCA_Rect rect, std::string title, opt_t options)
 {
 	ISCA_Win *win = new ISCA_Win;
@@ -203,9 +216,10 @@ ISCA_Win *ISCA_CreateWin(ISCA_Rect rect, std::string title, opt_t options)
 	win->chil = NULL;
 	win->owner = NULL;
 	win->curr = NULL;
+	win->options = options;
+
 	win->event_handler = NULL;
 	win->draw = NULL;
-	win->free = NULL;
 
 	ISCA_Log(LOGFILE, "Создана форма %s\n", win->title.c_str());
 
@@ -224,13 +238,14 @@ void InitForms()
 	win = ISCA_CreateWin(rect, "first win", 0); 
 
 	// После постройки формы - необходима регистрация
-	ISCA_RegisterForm(win);	/* Регистрация формы окна */ 
+	ISCA_RegisterForm(win, ISCA_FreeWin);	/* Регистрация формы окна */ 
 
 	ISCA_Insert(ISCA_Applic, win);
 }
 
 int main(int argc, char const *argv[])
 {
+	ISCA_Log(LOGFILE, "\n------------------------------------------------------\n");
 
 	if(ISCA_Init() < 0) {	/* Инициализация оконной системы */
 		std::cerr << 
