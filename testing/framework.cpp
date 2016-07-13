@@ -229,18 +229,36 @@ ISCA_Win *ISCA_CreateWin(ISCA_Rect rect, std::string title, opt_t options)
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 
 ISCA_Win  *win;
+ISCA_Win  *win1;
+ISCA_Win  *win2;
+ISCA_Win  *win3;
 
 void InitForms()
 {
 	ISCA_Rect rect;
 
 	ISCA_Assign(&rect, 10, 10, 50, 40);	
-	win = ISCA_CreateWin(rect, "first win", 0); 
+	win = ISCA_CreateWin(rect, "win", 0); 
+
+	ISCA_Assign(&rect, 20, 20, 80, 50);
+	win1 = ISCA_CreateWin(rect, "win1", 0); 
+	
+	ISCA_Assign(&rect, 20, 20, 90, 60);
+	win2 = ISCA_CreateWin(rect, "win2", 0); 
+
+	ISCA_Assign(&rect, 20, 20, 20, 10);
+	win3 = ISCA_CreateWin(rect, "win3", 0); 
 
 	// После постройки формы - необходима регистрация
 	ISCA_RegisterForm(win, ISCA_FreeWin);	/* Регистрация формы окна */ 
+	ISCA_RegisterForm(win1, ISCA_FreeWin);
+	ISCA_RegisterForm(win2, ISCA_FreeWin);
+	ISCA_RegisterForm(win3, ISCA_FreeWin);
 
 	ISCA_Insert(ISCA_Applic, win);
+	ISCA_Insert(win, win1);
+	ISCA_Insert(win1, win2);
+	ISCA_Insert(win1, win3);
 }
 
 int main(int argc, char const *argv[])

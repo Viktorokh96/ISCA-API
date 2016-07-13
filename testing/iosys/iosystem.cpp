@@ -21,6 +21,7 @@ void ISCA_Log(std::ostream &out, std::string fmt, ...)
 	va_list ap;
 	va_start(ap, fmt);
 	vsprintf(sbf, fmt.c_str(), ap);
+	va_end(ap);
 
 	buff += sbf;
 
@@ -45,6 +46,7 @@ void ISCA_Log(std::string filename, std::string fmt, ...)
 	va_list ap;
 	va_start(ap, fmt);
 	vsprintf(sbf, fmt.c_str(), ap);
+	va_end(ap);
 
 	buff += sbf;
 
