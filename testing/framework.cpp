@@ -220,6 +220,9 @@ ISCA_Win *ISCA_CreateWin(ISCA_Rect rect, std::string title, opt_t options)
 
 	win->event_handler = NULL;
 	win->draw = NULL;
+	
+	// После постройки формы - необходима регистрация
+	ISCA_RegisterForm(win, ISCA_FreeWin);	/* Регистрация формы окна */ 
 
 	ISCA_Log(LOGFILE, "Создана форма %s\n", win->title.c_str());
 
@@ -248,12 +251,6 @@ void InitForms()
 
 	ISCA_Assign(&rect, 20, 20, 20, 10);
 	win3 = ISCA_CreateWin(rect, "win3", 0); 
-
-	// После постройки формы - необходима регистрация
-	ISCA_RegisterForm(win, ISCA_FreeWin);	/* Регистрация формы окна */ 
-	ISCA_RegisterForm(win1, ISCA_FreeWin);
-	ISCA_RegisterForm(win2, ISCA_FreeWin);
-	ISCA_RegisterForm(win3, ISCA_FreeWin);
 
 	ISCA_Insert(ISCA_Applic, win);
 	ISCA_Insert(win, win1);
