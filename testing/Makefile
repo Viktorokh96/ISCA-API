@@ -3,7 +3,7 @@ CC = g++
 # Указание компилятору на поиск заголовочных файлов
 INCLUDE = -I/usr/include  
 
-LIBS = -lform -lreadline
+LIBS = -lform 
 
 # Направление поиска для make
 vpath %.cpp ./iosys
