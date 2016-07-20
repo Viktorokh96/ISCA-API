@@ -33,10 +33,10 @@ $(MAINOBJ) : $(MAINSRC)
 		$(CC) $^ $(FLAGS) -o $@
 
 $(IOOBJ) : $(IOSRC)
-		$(CC) $^ $(FLAGS) -O $@
+		$(CC) $^ $(FLAGS) -o $@
 
 $(LOGOBJ) : $(LOGSRC)
-		$(CC) $^ $(FLAGS) -O $@
+		$(CC) $^ $(FLAGS) -o $@
 
 clean :
 		rm -rf $(ALLOBJ) && rm $(EXE)
