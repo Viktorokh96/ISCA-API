@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include "./iosys/iosystem.h"
 using std::string;
+using std::clog;
 
 #define LOGFILE "./initlog.log"
 
@@ -14,7 +15,7 @@ struct ISCA_Rect {
 
 typedef unsigned int opt_t;
 typedef void (*drawhandler_t)(void *ths);
-typedef void (*eventhandler_t)(void *ths, void *event);
+typedef void (*eventhandler_t)(void *ths, ISCA_Event *event);
 typedef void (*deletehandler_t)(void *ths);
 
 /* Стандартные поля формы:
@@ -50,8 +51,12 @@ struct ISCA_Button {
 	STD_FORM
 };
 
-void ISCA_StdEventHandl(void *ths, void *event)
+void ISCA_StdEventHandl(void *ths, ISCA_Event *event)
 {
+	ISCA_StdForm *frm = (ISCA_StdForm *) ths;
+
+	ISCA_Log(clog, "Form %s get event key %c\n", 	
+			frm->title.c_str(), event->kb);
 	return;
 }
 
@@ -119,6 +124,8 @@ int ISCA_GetHeight()
 int ISCA_Init() 
 {
 	ISCA_Log(LOGFILE, "Инициализация ISCA...\n");
+	
+	ISCA_InitEvents();
 
 	ISCA_Applic = new ISCA_StdForm;		// Выделение памяти под корень дерева
 
@@ -131,6 +138,7 @@ int ISCA_Init()
 	ISCA_Applic->curr = NULL;
 
 	ISCA_Applic->free = ISCA_ApplicFree;
+	ISCA_Applic->event_handler = ISCA_StdEventHandl;
 
 	ISCA_Applic->title = "Applic Main";
 
@@ -174,6 +182,19 @@ void ISCA_FreeTree(void *f)
 	ISCA_FreeForm(frm);
 }
 
+void ISCA_SendEvent(void *frm, ISCA_Event *ev)
+{
+	ISCA_StdForm *tmp, *f = (ISCA_StdForm *) frm;
+
+	tmp = (ISCA_StdForm *) f->chil;
+	while(tmp) {
+		ISCA_SendEvent(tmp, ev);
+		tmp = (ISCA_StdForm *)tmp -> next;
+	}
+
+	f->event_handler(f, ev);
+}
+
 /* Статус прекращения работы не возвращается */
 void ISCA_Quit() 
 {		
@@ -184,14 +205,20 @@ void ISCA_Quit()
 
 void ISCA_Run()
 {
-/*
- * while(!ExitFlag) {
- *	check events
- *	send events to main form
- *	ExitFlag = exit event?
- *	repeat	
- * }
- */		
+	bool ExitFlag = false;
+	ISCA_Event event;
+
+	while(!ExitFlag) {
+		ISCA_PollEvent(&event);
+
+		if(event.type != null) {
+			ISCA_SendEvent(ISCA_Applic, &event);
+
+			if(event.type == key &&
+			   event.kb == 'q')
+				ExitFlag = true;
+		}
+	}
 }
 
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
@@ -210,13 +237,13 @@ ISCA_Win *ISCA_CreateWin(ISCA_Rect rect, std::string title, opt_t options)
 	
 	win->title = title;		
 	win->rect = rect;
+	win->event_handler = NULL;
 	win->next = NULL;
 	win->chil = NULL;
 	win->owner = NULL;
 	win->curr = NULL;
 	win->options = options;
 
-	win->event_handler = NULL;
 	win->draw = NULL;
 	
 	// После постройки формы - необходима регистрация

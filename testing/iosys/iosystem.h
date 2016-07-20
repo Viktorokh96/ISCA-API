@@ -3,7 +3,7 @@
 	#include <sys/types.h>
 	#include "./log.h"
 
-enum event_type { key, mouse, null }; 
+enum event_type { key, mouse, cmd, null }; 
 
 typedef u_int16_t kb_t;	
 typedef u_int32_t coord_t;
@@ -21,5 +21,9 @@ int ISCA_ConvertToXY(coord_t coord, short *x, short *y);
 int ISCA_ConvertToCoord(coord_t *coord, short x, short y);
 
 int ISCA_PollEvent(ISCA_Event *ev);
+
+int ISCA_PushEvent(ISCA_Event ev);
+
+int ISCA_InitEvents();
 
 #endif
