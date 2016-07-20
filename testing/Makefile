@@ -13,12 +13,14 @@ FLAGS = -Wall -c -g -std=c++98 $(INCLUDE)
 LDFLAGS = $(LIBS)
 # Исходные файлы проекта
 MAINSRC = framework.cpp
+LOGSRC = log.cpp
 IOSRC = iosystem.cpp
 # Объектные файлы
 MAINOBJ = $(patsubst %.cpp,%.o,$(MAINSRC))
+LOGOBJ = $(patsubst %.cpp,%.o,$(LOGSRC))
 IOOBJ = $(patsubst %.cpp,%.o,$(IOSRC))
 
-ALLOBJ	= $(MAINOBJ) $(IOOBJ)
+ALLOBJ	= $(MAINOBJ) $(LOGOBJ) $(IOOBJ)
 
 EXE := framework
 
@@ -31,7 +33,10 @@ $(MAINOBJ) : $(MAINSRC)
 		$(CC) $^ $(FLAGS) -o $@
 
 $(IOOBJ) : $(IOSRC)
-		$(CC) $^ $(FLAGS) -o $@
+		$(CC) $^ $(FLAGS) -O $@
+
+$(LOGOBJ) : $(LOGSRC)
+		$(CC) $^ $(FLAGS) -O $@
 
 clean :
 		rm -rf $(ALLOBJ) && rm $(EXE)

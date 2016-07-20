@@ -37,7 +37,6 @@ typedef void (*deletehandler_t)(void *ths);
 	drawhandler_t draw;\
 	deletehandler_t free;\
 
-
 struct ISCA_StdForm {
 	STD_FORM
 } *ISCA_Applic;			// Корень дерева форм приложения

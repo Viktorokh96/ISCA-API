@@ -1,11 +1,25 @@
 #ifndef _IO_SYS_
 #define _IO_SYS_
-	#include <iostream>
+	#include <sys/types.h>
+	#include "./log.h"
 
-	/* Запись логов в поток вывода */	
-	void ISCA_Log(std::ostream &out, std::string fmt, ...);
+enum event_type { key, mouse, null }; 
 
-	/* Запись логов в файловый поток вывода */	
-	void ISCA_Log(std::string filename, std::string fmt, ...);
+typedef u_int16_t kb_t;	
+typedef u_int32_t coord_t;
+
+struct ISCA_Event {
+	event_type type;		// type of event
+	union {
+		kb_t kb;		// Keybord code
+		coord_t coord;		// Mouse coordinats
+	};
+};
+
+int ISCA_ConvertToXY(coord_t coord, short *x, short *y);
+
+int ISCA_ConvertToCoord(coord_t *coord, short x, short y);
+
+int ISCA_PollEvent(ISCA_Event *ev);
 
 #endif

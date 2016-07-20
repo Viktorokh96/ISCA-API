@@ -1,57 +1,45 @@
-#include <cstdarg>
-#include <string>
-#include <cstdlib>
-#include <sstream>
-#include <fstream>
 #include "iosystem.h"
+#include <cstdio>
 
-template <class T>
-std::string convertNumber(T num)
+#define MAX_Q 64;	// max queue length
+
+ISCA_Event ISCA_GetEvent();
+
+int ISCA_ConvertToXY(coord_t coord, short *x, short *y)
 {
-    std::stringstream ss; 
-    ss << num;
-    return ss.str();
+	if (!x || !y) return -1;
+
+	*x = (short)(coord >> 16);
+	*y = (short)(coord);
+
+	return 0;
 }
 
-void ISCA_Log(std::ostream &out, std::string fmt, ...)
+int ISCA_ConvertToCoord(coord_t *coord, short x, short y)
 {
-	char sbf[256]; 
-	std::string buff = "ISCA_LOG:";
+	if (!coord) return -1;
 
-	va_list ap;
-	va_start(ap, fmt);
-	vsprintf(sbf, fmt.c_str(), ap);
-	va_end(ap);
+	*coord = (((coord_t) (x << 16)) | ((coord_t) y));
 
-	buff += sbf;
-
-	out << buff;
+	return 0;
 }
 
-void ISCA_Log(std::string filename, std::string fmt, ...)
+int ISCA_PollEvent(ISCA_Event *ev)
 {
-	char sbf[256]; 
-	std::ofstream out;
-	out.open(filename.c_str(), 
-		std::ios::out | std::ios::app);
+	if (!ev) return -1;
 
-	if(!out) {
-		std::cerr << "Не удается открыть файл для ISCA_LOG." 
-			<< std::endl;
-		return;
-	}
+	*ev = ISCA_GetEvent();
 
-	std::string buff = "ISCA_LOG:";
-
-	va_list ap;
-	va_start(ap, fmt);
-	vsprintf(sbf, fmt.c_str(), ap);
-	va_end(ap);
-
-	buff += sbf;
-
-	out << buff;
-
-	out.close();
+	return 0;
 }
 
+
+ISCA_Event ISCA_GetEvent()
+{
+	ISCA_Event event;
+	event.type = key;	// temporary
+
+	event.kb = getchar();	// for debug
+
+	return event;
+}
