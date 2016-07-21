@@ -2,7 +2,11 @@
 #define STDFORM_H
 
 #include <types.h>
-#include <isca.h>
+
+struct ISCA_Rect {
+	int x,y;	// Начальные координаты формы
+	int w,h;	// Ширина и высота формы
+};
 
 /* Стандартные поля формы:
  * next - слудующая форма (соседний узел в дереве), 

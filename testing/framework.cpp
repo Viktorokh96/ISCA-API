@@ -34,7 +34,7 @@ ISCA_Win *ISCA_CreateWin(ISCA_Rect rect, std::string title, opt_t options)
 	win->draw = NULL;
 	
 	// После постройки формы - необходима регистрация
-	ISCA_RegisterForm(win, ISCA_FreeWin, NULL, NULL);
+	ISCA_RegisterForm(win, ISCA_FreeWin, NULL, NULL); 
 
 	ISCA_Log(LOGFILE, "Создана форма %s\n", win->title.c_str());
 

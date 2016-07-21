@@ -2,11 +2,6 @@
 #define ISCA_H
 
 #include <iosystem.h>
-
-struct ISCA_Rect {
-	int x,y;	// Начальные координаты формы
-	int w,h;	// Ширина и высота формы
-};
 #include <stdform.h>
 #include <types.h>
 

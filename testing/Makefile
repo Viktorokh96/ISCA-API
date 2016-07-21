@@ -17,14 +17,12 @@ LOGSRC = log.cpp
 IOSRC = iosystem.cpp
 ISCASRC = isca.cpp
 STDFSRC = stdform.cpp
-INTERSRC = internal.cpp
 # Объектные файлы
 MAINOBJ = $(patsubst %.cpp,%.o,$(MAINSRC))
 LOGOBJ = $(patsubst %.cpp,%.o,$(LOGSRC))
 IOOBJ = $(patsubst %.cpp,%.o,$(IOSRC))
 ISCAOBJ = $(patsubst %.cpp,%.o,$(ISCASRC))
 STDFOBJ = $(patsubst %.cpp,%.o,$(STDFSRC))
-INTEROBJ = $(patsubst %.cpp,%.o,$(INTERSRC))
 
 ALLOBJ	= $(MAINOBJ) $(STDFOBJ) $(LOGOBJ) $(IOOBJ) $(INTEROBJ) $(ISCAOBJ) 
 
@@ -48,9 +46,6 @@ $(ISCAOBJ) : $(ISCASRC)
 		$(CC) $^ $(FLAGS) -o $@
 
 $(STDFOBJ) : $(STDFSRC)
-		$(CC) $^ $(FLAGS) -o $@
-
-$(INTEROBJ) : $(INTERSRC)
 		$(CC) $^ $(FLAGS) -o $@
 
 clean :
