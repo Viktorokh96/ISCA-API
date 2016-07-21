@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <sstream>
 #include <fstream>
-#include "iosystem.h"
+#include <iosystem.h>
 
 void ISCA_Log(std::ostream &out, std::string fmt, ...)
 {

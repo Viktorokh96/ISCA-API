@@ -27,3 +27,9 @@
 *.exe
 *.out
 *.app
+
+# Swap files
+*.swp
+
+# Log files
+*.log

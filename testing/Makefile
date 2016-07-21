@@ -1,7 +1,7 @@
 # Имя компилятора
 CC = g++ 
 # Указание компилятору на поиск заголовочных файлов
-INCLUDE = -I/usr/include  
+INCLUDE = -I./include  
 
 LIBS = -lform 
 
@@ -15,12 +15,18 @@ LDFLAGS = $(LIBS)
 MAINSRC = framework.cpp
 LOGSRC = log.cpp
 IOSRC = iosystem.cpp
+ISCASRC = isca.cpp
+STDFSRC = stdform.cpp
+INTERSRC = internal.cpp
 # Объектные файлы
 MAINOBJ = $(patsubst %.cpp,%.o,$(MAINSRC))
 LOGOBJ = $(patsubst %.cpp,%.o,$(LOGSRC))
 IOOBJ = $(patsubst %.cpp,%.o,$(IOSRC))
+ISCAOBJ = $(patsubst %.cpp,%.o,$(ISCASRC))
+STDFOBJ = $(patsubst %.cpp,%.o,$(STDFSRC))
+INTEROBJ = $(patsubst %.cpp,%.o,$(INTERSRC))
 
-ALLOBJ	= $(MAINOBJ) $(LOGOBJ) $(IOOBJ)
+ALLOBJ	= $(MAINOBJ) $(STDFOBJ) $(LOGOBJ) $(IOOBJ) $(INTEROBJ) $(ISCAOBJ) 
 
 EXE := framework
 
@@ -36,6 +42,15 @@ $(IOOBJ) : $(IOSRC)
 		$(CC) $^ $(FLAGS) -o $@
 
 $(LOGOBJ) : $(LOGSRC)
+		$(CC) $^ $(FLAGS) -o $@
+
+$(ISCAOBJ) : $(ISCASRC)
+		$(CC) $^ $(FLAGS) -o $@
+
+$(STDFOBJ) : $(STDFSRC)
+		$(CC) $^ $(FLAGS) -o $@
+
+$(INTEROBJ) : $(INTERSRC)
 		$(CC) $^ $(FLAGS) -o $@
 
 clean :
