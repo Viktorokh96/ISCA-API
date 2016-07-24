@@ -11,7 +11,7 @@ void ISCA_FreeTree(void *f);
 
 void ISCA_SendEvent(void *frm, ISCA_Event *ev);
 
-ISCA_StdForm *ISCA_Applic;
+ISCA_StdForm *ISCA_Applic;			// Application tree root
 
 void ISCA_ApplicFree(void *apl)
 {
@@ -31,9 +31,9 @@ int ISCA_InitApplic()
 	ISCA_Applic->next = NULL;
 	ISCA_Applic->chil = NULL;
 	ISCA_Applic->curr = NULL;
+	ISCA_Applic->event_handler = NULL;
 
 	ISCA_Applic->free = ISCA_ApplicFree;
-	ISCA_Applic->event_handler = ISCA_StdEventHandl;
 
 	ISCA_Applic->title = "Applic Main";
 
@@ -73,7 +73,7 @@ void ISCA_SendEvent(void *frm, ISCA_Event *ev)
 
 int ISCA_RegisterForm(void *frm, deletehandler_t fr,
 		eventhandler_t evt, 
-		drawhandler_t drw = ISCA_StdDraw)
+		drawhandler_t drw)
 {
 	if(!frm)
 		return -1;
