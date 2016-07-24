@@ -6,7 +6,7 @@ INCLUDE = -I./include
 LIBS = -lform 
 
 # Направление поиска исходных файлов для make
-vpath %.cpp ./iosys
+vpath %.cpp ./isca ./isca/iosys ./isca/stdform
 # Направление поиска заголовочных файлов для make
 vpath %.h ./include
 # Установка флагов для компиляции объектных файлов
