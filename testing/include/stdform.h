@@ -14,14 +14,17 @@ struct ISCA_Rect {
  * owner - владелец текущей формы.
  * chil - указатель на голову спискa потомков формы.
  * curr - указатель на текущую форму (для поддержки модальности).
+ * visible - флаг указывающий на видимость окна.
  * event_handler - метод обработчика событий.
  * draw - метод отрисовки формы.
+ * free - метод освобождения структуры.
 */
 #define STD_FORM\
 	void *next;\
 	void *owner;\
 	void *chil;\
 	void *curr;\
+	bool visible;\
 	std::string title;\
 	ISCA_Rect rect;\
 	eventhandler_t event_handler;\

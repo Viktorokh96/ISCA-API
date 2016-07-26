@@ -30,6 +30,7 @@ ISCA_Win *ISCA_CreateWin(ISCA_Rect rect, std::string title, opt_t options)
 	win->owner = NULL;
 	win->curr = NULL;
 	win->options = options;
+	win->visible = true;
 
 	win->draw = NULL;
 	

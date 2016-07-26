@@ -1,4 +1,5 @@
-#include <isca.h>
+#include <application.h>
+#include <stdform.h>
 #include <iosystem.h>
 
 #define LOGFILE "./initlog.log"
@@ -36,6 +37,7 @@ int ISCA_InitApplic()
 	ISCA_Applic->free = ISCA_ApplicFree;
 
 	ISCA_Applic->title = "Applic Main";
+	ISCA_Applic->visible = true;
 
 	return 0;
 }

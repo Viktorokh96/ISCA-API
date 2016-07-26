@@ -17,16 +17,16 @@ LDFLAGS = $(LIBS)
 MAINSRC = framework.cpp isca.h
 LOGSRC = log.cpp log.h iosystem.h
 IOSRC = iosystem.cpp iosystem.h stdform.h
-ISCASRC = isca.cpp iosystem.h isca.h
+APPLICSRC = application.cpp iosystem.h application.h
 STDFSRC = stdform.cpp iosystem.h stdform.h
 # Объектные файлы
 MAINOBJ = framework.o
 LOGOBJ = log.o
 IOOBJ = iosystem.o
-ISCAOBJ = isca.o
 STDFOBJ = stdform.o
+APPLICOBJ = application.o
 
-ALLOBJ	= $(MAINOBJ) $(STDFOBJ) $(LOGOBJ) $(IOOBJ) $(INTEROBJ) $(ISCAOBJ) 
+ALLOBJ	= $(MAINOBJ) $(STDFOBJ) $(LOGOBJ) $(IOOBJ) $(INTEROBJ) $(APPLICOBJ) 
 
 EXE := framework
 
@@ -45,7 +45,7 @@ $(IOOBJ) : $(IOSRC)
 $(LOGOBJ) : $(LOGSRC)
 		$(CC) $< $(FLAGS) -o $@
 
-$(ISCAOBJ) : $(ISCASRC)
+$(APPLICOBJ) : $(APPLICSRC)
 		$(CC) $< $(FLAGS) -o $@
 
 $(STDFOBJ) : $(STDFSRC)

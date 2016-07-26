@@ -1,6 +1,8 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+#include <iosystem.h>
+
 typedef unsigned int opt_t;
 typedef void (*drawhandler_t)(void *ths);
 typedef void (*eventhandler_t)(void *ths, ISCA_Event *event);
