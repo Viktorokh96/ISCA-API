@@ -2,6 +2,7 @@
 #define STDFORM_H
 
 #include <types.h>
+#include <iostream>
 
 struct ISCA_Rect {
 	int x,y;	// Начальные координаты формы

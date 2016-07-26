@@ -1,7 +1,5 @@
-#include <cstdio>
 #include <termios.h>	// temporary
-#include <unistd.h>
-#include <iosystem.h>
+#include <events.h>
 
 #define MAX_Q 64	// max queue length
 

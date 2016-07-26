@@ -15,18 +15,18 @@ FLAGS = -Wall -c -g -std=c++98 $(INCLUDE)
 LDFLAGS = $(LIBS)
 # Исходные файлы проекта и их зависимости от заголовочных файлов
 MAINSRC = framework.cpp isca.h
-LOGSRC = log.cpp log.h iosystem.h
-IOSRC = iosystem.cpp iosystem.h stdform.h
+LOGSRC = log.cpp log.h 
+EVENTSRC = events.cpp events.h stdform.h
 APPLICSRC = application.cpp iosystem.h application.h
 STDFSRC = stdform.cpp iosystem.h stdform.h
 # Объектные файлы
 MAINOBJ = framework.o
 LOGOBJ = log.o
-IOOBJ = iosystem.o
+EVENTOBJ = events.o
 STDFOBJ = stdform.o
 APPLICOBJ = application.o
 
-ALLOBJ	= $(MAINOBJ) $(STDFOBJ) $(LOGOBJ) $(IOOBJ) $(INTEROBJ) $(APPLICOBJ) 
+ALLOBJ	= $(MAINOBJ) $(STDFOBJ) $(LOGOBJ) $(EVENTOBJ) $(INTEROBJ) $(APPLICOBJ) 
 
 EXE := framework
 
@@ -39,7 +39,7 @@ $(EXE) : $(ALLOBJ)
 $(MAINOBJ) : $(MAINSRC)
 		$(CC) $< $(FLAGS) -o $@
 
-$(IOOBJ) : $(IOSRC)
+$(EVENTOBJ) : $(EVENTSRC)
 		$(CC) $< $(FLAGS) -o $@
 
 $(LOGOBJ) : $(LOGSRC)
