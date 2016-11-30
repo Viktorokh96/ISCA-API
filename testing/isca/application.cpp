@@ -1,5 +1,4 @@
 #include <application.h>
-#include <stdform.h>
 #include <iosystem.h>
 
 #define LOGFILE "./initlog.log"
@@ -27,17 +26,11 @@ int ISCA_InitApplic()
 
 	ISCA_Rect rect;
 	ISCA_Assign(&rect, 0, 0 , ISCA_GetWidth(), ISCA_GetHeight());
-	
-	ISCA_Applic->owner = NULL;
-	ISCA_Applic->next = NULL;
-	ISCA_Applic->chil = NULL;
-	ISCA_Applic->curr = NULL;
-	ISCA_Applic->event_handler = NULL;
+
+	ISCA_InitStdForm(ISCA_Applic, rect, "Applic Main", true);		
+	ISCA_RegisterForm(ISCA_Applic, ISCA_ApplicFree, NULL, NULL); 
 
 	ISCA_Applic->free = ISCA_ApplicFree;
-
-	ISCA_Applic->title = "Applic Main";
-	ISCA_Applic->visible = true;
 
 	return 0;
 }
@@ -71,22 +64,6 @@ void ISCA_SendEvent(void *frm, ISCA_Event *ev)
 	ISCA_StdEventHandl(f, ev);
 	if(f->event_handler)
 		f->event_handler(f, ev);
-}
-
-int ISCA_RegisterForm(void *frm, deletehandler_t fr,
-		eventhandler_t evt, 
-		drawhandler_t drw)
-{
-	if(!frm)
-		return -1;
-
-	ISCA_StdForm *f = (ISCA_StdForm *) frm;
-
-	f->event_handler = evt;
-	f->draw = drw;
-	f->free = fr;
-	
-	return 0;
 }
 
 int ISCA_Assign(ISCA_Rect *rect, int x, int y, int w, int h)

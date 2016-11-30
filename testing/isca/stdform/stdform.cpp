@@ -4,27 +4,31 @@
 #define LOGFILE "./initlog.log"
 using std::clog;
 
-void ISCA_StdEventHandl(void *ths, ISCA_Event *event)
+int ISCA_Rect::get(what wh)
 {
-	ISCA_StdForm *frm = (ISCA_StdForm *) ths;
+	switch(wh) {
+		case x:
+			return _x;
+		case y:
+			return _y;
+		case w: 
+			return _w;
+		case h:
+			return _h;
+		default:
+			return -1;
+	}
+}
 
+void ISCA_Form::event_handler(ISCA_Event *event)
+{
 	ISCA_Log(clog, "Form %s get event key %c\n", 	
-			frm->title.c_str(), event->kb);
+			title.c_str(), event->kb);
 	return;
 }
 
-void ISCA_StdDraw(void *ths)
+// Factory
+ISCA_Form *ISCA_NewForm()
 {
-	return;
+	return new ISCA_Form;
 }
-
-void ISCA_FreeForm(void *frm)
-{
-	ISCA_StdForm *f = (ISCA_StdForm *) frm;
-
-	ISCA_Log(LOGFILE, "Освобождение формы %s\n",
-			f->title.c_str());
-
-	f->free(f);
-}
-

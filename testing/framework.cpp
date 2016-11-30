@@ -10,34 +10,33 @@ using std::clog;
 
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 
+//factory
+ISCA_Win *ISCA_NewWin()
+{
+	return new ISCA_Win;
+}
+
 void ISCA_FreeWin(void *win)
 {
 	ISCA_Win *w = (ISCA_Win *) win;
+
 	delete w;
 }
 
 ISCA_Win *ISCA_CreateWin(ISCA_Rect rect, std::string title, opt_t options)
 {
-	ISCA_Win *win = new ISCA_Win;
+	ISCA_Win *win = ISCA_NewWin();
 	if (!win)
 		return NULL;
 	
-	win->title = title;		
-	win->rect = rect;
-	win->event_handler = NULL;
-	win->next = NULL;
-	win->chil = NULL;
-	win->owner = NULL;
-	win->curr = NULL;
-	win->options = options;
-	win->visible = true;
+	ISCA_InitStdForm(win, rect, title, true);
 
-	win->draw = NULL;
-	
+	win->options = options;
+
 	// После постройки формы - необходима регистрация
 	ISCA_RegisterForm(win, ISCA_FreeWin, NULL, NULL); 
 
-	ISCA_Log(LOGFILE, "Создана форма %s\n", win->title.c_str());
+	ISCA_Log(LOGFILE, "Создана форма %s\n", win->parent.title.c_str());
 
 	return win;
 }

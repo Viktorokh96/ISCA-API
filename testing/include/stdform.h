@@ -4,9 +4,13 @@
 #include <types.h>
 #include <iostream>
 
-struct ISCA_Rect {
-	int x,y;	// Начальные координаты формы
-	int w,h;	// Ширина и высота формы
+class ISCA_Rect {
+	int _x,_y;	// Начальные координаты формы
+	int _w,_h;	// Ширина и высота формы
+public:
+	enum what { x, y, w, h }; 
+	void assign(int x, int y, int w, int h) { _x = x; _y = y; _w = w; _h = h; }
+	int get(what wh);
 };
 
 /* Стандартные поля формы:
@@ -20,37 +24,27 @@ struct ISCA_Rect {
  * draw - метод отрисовки формы.
  * free - метод освобождения структуры.
 */
-#define STD_FORM\
-	void *next;\
-	void *owner;\
-	void *chil;\
-	void *curr;\
-	bool visible;\
-	std::string title;\
-	ISCA_Rect rect;\
-	eventhandler_t event_handler;\
-	drawhandler_t draw;\
-	deletehandler_t free;\
 
-struct ISCA_StdForm {
-	STD_FORM
+class ISCA_Form {
+protected:
+	ISCA_Form *next;
+	ISCA_Form *owner;
+	ISCA_Form *chil;
+	ISCA_Form *curr;
+	bool visible;
+	std::string title;
+	ISCA_Rect rect;
+public:
+	void event_handler(ISCA_Event *event); 
+	void draw() {}
 };
 
-extern ISCA_StdForm *ISCA_Applic;			// Корень дерева форм приложения
+extern ISCA_Form *ISCA_Applic;			// Корень дерева форм приложения
 
-struct ISCA_Win {
-	STD_FORM
+class ISCA_Win : public ISCA_Form {
 	opt_t options;
 };
 
-struct ISCA_Button {
-	STD_FORM
-};
-
-void ISCA_StdEventHandl(void *ths, ISCA_Event *event);
-
-void ISCA_StdDraw(void *ths);
-
-void ISCA_FreeForm(void *frm);
+ISCA_Form *ISCA_NewForm();
 
 #endif

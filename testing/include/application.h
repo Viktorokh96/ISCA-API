@@ -17,12 +17,6 @@
  * ISCA_Insert - insert one form to other
 */
 
-int ISCA_RegisterForm(void *frm, deletehandler_t fr,
-			eventhandler_t evt, 
-			drawhandler_t drw);
-
-int ISCA_Assign(ISCA_Rect *rect, int x, int y, int w, int h);
-
 int ISCA_GetWidth();
 
 int ISCA_GetHeight();
